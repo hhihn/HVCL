@@ -37,16 +37,6 @@ if __name__ == "__main__":
         dest='hvcl',
         help='Use HVCL')
     parser.add_argument(
-        '--replay',
-        action='store_true',
-        dest='replay',
-        help='Use replay buffer')
-    parser.add_argument(
-        '--no-replay',
-        action='store_false',
-        dest='replay',
-        help='Use replay buffer')
-    parser.add_argument(
         '--batch_s',
         type=int,
         default=256,
@@ -136,12 +126,7 @@ if __name__ == "__main__":
     replay = False  # args.replay
     k = min(n_experts, args.k)
     # Creating a ReplayBuffer for the training process to store old samples in
-    if replay:
-        continual_replay_buffer = ExperienceBuffer({'size': 50000 * len(environments),
-                                                    'batch_size': batch_size,
-                                                    'total_steps': train_n_steps * (len(environments) - 1)})
-    else:
-        continual_replay_buffer = None
+    continual_replay_buffer = None
     old_models = []
     largest_obs_dim = -1
     largest_act_dim = -1
