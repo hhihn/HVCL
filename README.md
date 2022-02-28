@@ -11,6 +11,14 @@ Code basis for Hierarchically Structured Task-Agnostic Continual Learning, which
 - pybullet 3.0.8
 - cloudpickle 1.2.2
 - pybullet-gym from https://github.com/benelot/pybullet-gym
+- 
+## Repo Structure
+- `DenseMoVE.py` and `ConvMoVE.py` implement Mixture-of-Variational-Experts layer (see paper and below for an example)
+- `ExperienceBuffer.py` and `sum_tree.py` contain the implementation of [prioritized replay buffer](https://arxiv.org/pdf/1511.05952.pdf)
+- `SparseDispatcher.py` contains the implementation of the [sparse top-k sampling](https://arxiv.org/pdf/1701.06538.pdf) technique
+- `initializer.py` implementsn itializers that initiatial each expert weight as [Xavier](http://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf) and [He](https://arxiv.org/abs/1502.01852) initialization
+- `parallel_gym.py` contains necessary functiosn to run CRL experiments in parallel by executing several envs in parallel
+- `HVCL_rl_*.py` contain the HVCL implementation of [SAC](https://arxiv.org/pdf/1812.05905.pdf)
 
 ## Implementation for Dense MoVE Layers
 Dense layers can be found in the file `DenseMoVE.py` under the python class `DenseMoVE`, which inherts from `keras.layers`. Thus, it can be used as part of a model or in a feedforward chain.
@@ -31,7 +39,7 @@ layer_out = DenseMoE(units=64,
                      entropy_fun=entropy_function,
                      kl_div_fun=kl_divergence_function)(layer_in)
 ```
-The lambda functions 
+
 ## Implementation for Conv MoVE Layers
 Conv layers can be found in the file `ConvMoVE.py` under the python class `ConvMoE`, which inherts from `keras.layers`. Thus, it can be used as part of a model or in a feedforward chain. We provide 1D, 2D, and 3D convolutional layers.
 See the following example on how to instantiate a 2D conv MoVE layer:
@@ -63,13 +71,6 @@ to see a full list of all avalaible hyper-parameters.
 ## Baseline EWC and UCL CRL Experiments
 We provide the implementation we used for EWC and UCL for CRL in the accordingly named folder.
 
-## Repo Structure
--`ExperienceBuffer.py` and `sum_tree.py` contain the implementation of prioritized replay buffer
-- `SparseDispatcher.py` contains the implementation of the sparse top-k sampling technique
-- `initializer.py` implementsn itializers that initiatial each expert weight as  Xavier and He initialization
-- `parallel_gym.py` contains necessary functiosn to run CRL experiments in parallel by executing several envs in parallel
-- `HVCL_rl_*.py` contain the HVCL implementation of SAC
--
 ## Acknowledgements
 The SAC implementation is based on [this](https://github.com/RickyMexx/SAC-tf2) repo and the UCL implementation for CRL can be found in [this](https://github.com/csm9493/UCL) repo. `SparseDispatcher.py` is based on [this](https://github.com/tensorflow/tensor2tensor) repo.
 
