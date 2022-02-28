@@ -11,13 +11,13 @@ Code basis for Hierarchically Structured Task-Agnostic Continual Learning, which
 - pybullet 3.0.8
 - cloudpickle 1.2.2
 - pybullet-gym from https://github.com/benelot/pybullet-gym
-- 
+
 ## Repo Structure
 - `DenseMoVE.py` and `ConvMoVE.py` implement Mixture-of-Variational-Experts layer (see paper and below for an example)
 - `ExperienceBuffer.py` and `sum_tree.py` contain the implementation of [prioritized replay buffer](https://arxiv.org/pdf/1511.05952.pdf)
 - `SparseDispatcher.py` contains the implementation of the [sparse top-k sampling](https://arxiv.org/pdf/1701.06538.pdf) technique
-- `initializer.py` implementsn itializers that initiatial each expert weight as [Xavier](http://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf) and [He](https://arxiv.org/abs/1502.01852) initialization
-- `parallel_gym.py` contains necessary functiosn to run CRL experiments in parallel by executing several envs in parallel
+- `initializer.py` implements functions that initialize each expert's weights as specified by the [Xavier](http://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf) or [He](https://arxiv.org/abs/1502.01852) initialization method
+- `parallel_gym.py` contains necessary functions to run CRL experiments in parallel by executing several envs in parallel
 - `HVCL_rl_*.py` contain the HVCL implementation of [SAC](https://arxiv.org/pdf/1812.05905.pdf)
 
 ## Implementation for Dense MoVE Layers
