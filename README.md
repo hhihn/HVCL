@@ -63,8 +63,15 @@ to see a full list of all avalaible hyper-parameters.
 ## Baseline EWC and UCL CRL Experiments
 We provide the implementation we used for EWC and UCL for CRL in the accordingly named folder.
 
+## Repo Structure
+-`ExperienceBuffer.py` and `sum_tree.py` contain the implementation of prioritized replay buffer
+- `SparseDispatcher.py` contains the implementation of the sparse top-k sampling technique
+- `initializer.py` implementsn itializers that initiatial each expert weight as  Xavier and He initialization
+- `parallel_gym.py` contains necessary functiosn to run CRL experiments in parallel by executing several envs in parallel
+- `HVCL_rl_*.py` contain the HVCL implementation of SAC
+-
 ## Acknowledgements
-The SAC implementation is based on [this](https://github.com/RickyMexx/SAC-tf2) repo and the UCL implementation for CRL can be found in [this](https://github.com/csm9493/UCL) repo.
+The SAC implementation is based on [this](https://github.com/RickyMexx/SAC-tf2) repo and the UCL implementation for CRL can be found in [this](https://github.com/csm9493/UCL) repo. `SparseDispatcher.py` is based on [this](https://github.com/tensorflow/tensor2tensor) repo.
 
 ## Citation
 If you use any parts of this repo, please use the following citation:
