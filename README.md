@@ -67,10 +67,10 @@ We provide the implementation we used for EWC and UCL for CRL in the accordingly
 If you use any parts of this repo, please use the following citation:
 
 ```
-@InProceedings{hihn2022mixture,
-  author    = {Hihn, Heinke and Braun, Daniel A},
-  title     = {Mixture-of-Variational-Experts for Continual Learning},
-  booktitle = arxiv},
-  year      = {2022},
+@article{hihn2021mixture,
+  title={Mixture-of-Variational-Experts for Continual Learning},
+  author={Hihn, Heinke and Braun, Daniel A},
+  journal={arXiv preprint arXiv:2110.12667},
+  year={2021}
 }
 ```
