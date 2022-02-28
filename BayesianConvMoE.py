@@ -20,7 +20,7 @@ from tensorflow.keras.regularizers import l2
 from initializer import *
 ds = tfp.distributions
 
-class _ConvMoE(Layer):
+class _ConvMoVE(Layer):
     """Abstract nD convolution layer mixture of experts (private, used as implementation base).
     """
 
@@ -58,7 +58,7 @@ class _ConvMoE(Layer):
                  kl_div_fun=None,
                  entropy_fun=None,
                  **kwargs):
-        super(_ConvMoE, self).__init__(**kwargs)
+        super(_ConvMoVE, self).__init__(**kwargs)
         self.rank = rank
         self.n_filters = n_filters
         self.n_experts = n_experts
@@ -535,7 +535,7 @@ class _ConvMoE(Layer):
             'gating_bias_constraint': constraints.serialize(self.gating_bias_constraint),
             'activity_regularizer': regularizers.serialize(self.activity_regularizer)
         }
-        base_config = super(_ConvMoE, self).get_config()
+        base_config = super(_ConvMoVE, self).get_config()
         return dict(list(base_config.items()) + list(config.items()))
 
     def _softplus_inverse(self, x):
@@ -670,7 +670,7 @@ class _ConvMoE(Layer):
         return variance / (tf.square(mean) + epsilon)
 
 
-class Conv1DMoE(_ConvMoE):
+class Conv1DMoVE(_ConvMoVE):
     """1D convolution layer (e.g. temporal convolution).
 
     # Input shape
@@ -709,7 +709,7 @@ class Conv1DMoE(_ConvMoE):
             if data_format != 'channels_last':
                 raise ValueError(
                     'When using causal padding in `Conv1DMoE`, `data_format` must be "channels_last" (temporal data).')
-        super(Conv1DMoE, self).__init__(
+        super(Conv1DMoVE, self).__init__(
             rank=1,
             n_filters=n_filters,
             n_experts=n_experts,
@@ -737,12 +737,12 @@ class Conv1DMoE(_ConvMoE):
         self.input_spec = InputSpec(ndim=3)
 
     def get_config(self):
-        config = super(Conv1DMoE, self).get_config()
+        config = super(Conv1DMoVE, self).get_config()
         config.pop('rank')
         return config
 
 
-class Conv2DMoE(_ConvMoE):
+class Conv2DMoVE(_ConvMoVE):
     """2D convolution layer (e.g. spatial convolution over images).
 
     # Input shape
@@ -787,7 +787,7 @@ class Conv2DMoE(_ConvMoE):
                  gating_bias_constraint=None,
                  activity_regularizer=None,
                  **kwargs):
-        super(Conv2DMoE, self).__init__(
+        super(Conv2DMoVE, self).__init__(
             rank=2,
             n_filters=n_filters,
             n_experts=n_experts,
@@ -815,12 +815,12 @@ class Conv2DMoE(_ConvMoE):
         self.input_spec = InputSpec(ndim=4)
 
     def get_config(self):
-        config = super(Conv2DMoE, self).get_config()
+        config = super(Conv2DMoVE, self).get_config()
         config.pop('rank')
         return config
 
 
-class Conv3DMoE(_ConvMoE):
+class Conv3DMoVE(_ConvMoVE):
     """3D convolution layer (e.g. spatial convolution over volumes).
 
     # Input shape
@@ -865,7 +865,7 @@ class Conv3DMoE(_ConvMoE):
                  gating_bias_constraint=None,
                  activity_regularizer=None,
                  **kwargs):
-        super(Conv3DMoE, self).__init__(
+        super(Conv3DMoVE, self).__init__(
             rank=3,
             n_filters=n_filters,
             n_experts=n_experts,
@@ -893,12 +893,12 @@ class Conv3DMoE(_ConvMoE):
         self.input_spec = InputSpec(ndim=5)
 
     def get_config(self):
-        config = super(Conv3DMoE, self).get_config()
+        config = super(Conv3DMoVE, self).get_config()
         config.pop('rank')
         return config
 
 
 # Aliases
-Convolution1DMoE = Conv1DMoE
-Convolution2DMoE = Conv2DMoE
-Convolution3DMoE = Conv3DMoE
+Convolution1DMoVE = Conv1DMoVE
+Convolution2DMoVE = Conv2DMoVE
+Convolution3DMoVE = Conv3DMoVE

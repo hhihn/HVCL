@@ -8,7 +8,7 @@ from tensorflow.keras.layers import Dense, InputLayer, BatchNormalization, Input
 from tensorflow.keras.regularizers import l2
 import tensorflow_probability as tfp
 from collections import deque
-from BayesianDenseMoe import *
+from DenseMoe import *
 
 
 class ReplayBuffer(object):
@@ -84,74 +84,74 @@ class ActorNetwork(Model):
         input_layer = Input(shape=inputdim)
         if self.vmoe:
             if self.deep:
-                x = BayesianDenseMoE(units=n_hidden_units, expert_activation=tf.nn.leaky_relu,
-                                     gating_activation=tf.nn.softmax,
-                                     expert_beta=self.expert_beta, gating_beta=self.gating_beta,
-                                     n_experts=self.n_experts,
-                                     diversity_bonus=self.diversity_bonus,
-                                     kl_div_fun=self.kl_divergence_function,
-                                     entropy_fun=self.entropy_function,
-                                     k=self.k,
-                                     name="actor_dense_0")(input_layer)
+                x = DenseMoVE(units=n_hidden_units, expert_activation=tf.nn.leaky_relu,
+                              gating_activation=tf.nn.softmax,
+                              expert_beta=self.expert_beta, gating_beta=self.gating_beta,
+                              n_experts=self.n_experts,
+                              diversity_bonus=self.diversity_bonus,
+                              kl_div_fun=self.kl_divergence_function,
+                              entropy_fun=self.entropy_function,
+                              k=self.k,
+                              name="actor_dense_0")(input_layer)
                 x = Concatenate(axis=-1)([x, input_layer])
-                x = BayesianDenseMoE(units=n_hidden_units, expert_activation=tf.nn.leaky_relu,
-                                     gating_activation=tf.nn.softmax,
-                                     expert_beta=self.expert_beta, gating_beta=self.gating_beta,
-                                     n_experts=self.n_experts,
-                                     diversity_bonus=self.diversity_bonus,
-                                     kl_div_fun=self.kl_divergence_function,
-                                     entropy_fun=self.entropy_function,
-                                     k=self.k,
-                                     name="actor_dense_1")(x)
+                x = DenseMoVE(units=n_hidden_units, expert_activation=tf.nn.leaky_relu,
+                              gating_activation=tf.nn.softmax,
+                              expert_beta=self.expert_beta, gating_beta=self.gating_beta,
+                              n_experts=self.n_experts,
+                              diversity_bonus=self.diversity_bonus,
+                              kl_div_fun=self.kl_divergence_function,
+                              entropy_fun=self.entropy_function,
+                              k=self.k,
+                              name="actor_dense_1")(x)
                 x = Concatenate(axis=-1)([x, input_layer])
-                x = BayesianDenseMoE(units=n_hidden_units, expert_activation=tf.nn.leaky_relu,
-                                     gating_activation=tf.nn.softmax,
-                                     expert_beta=self.expert_beta, gating_beta=self.gating_beta,
-                                     n_experts=self.n_experts,
-                                     diversity_bonus=self.diversity_bonus,
-                                     kl_div_fun=self.kl_divergence_function,
-                                     entropy_fun=self.entropy_function,
-                                     k=self.k,
-                                     name="actor_dense_2")(x)
+                x = DenseMoVE(units=n_hidden_units, expert_activation=tf.nn.leaky_relu,
+                              gating_activation=tf.nn.softmax,
+                              expert_beta=self.expert_beta, gating_beta=self.gating_beta,
+                              n_experts=self.n_experts,
+                              diversity_bonus=self.diversity_bonus,
+                              kl_div_fun=self.kl_divergence_function,
+                              entropy_fun=self.entropy_function,
+                              k=self.k,
+                              name="actor_dense_2")(x)
                 x = Concatenate(axis=-1)([x, input_layer])
-                x = BayesianDenseMoE(units=n_hidden_units, expert_activation=tf.nn.leaky_relu,
-                                     gating_activation=tf.nn.softmax,
-                                     expert_beta=self.expert_beta, gating_beta=self.gating_beta,
-                                     n_experts=self.n_experts,
-                                     diversity_bonus=self.diversity_bonus,
-                                     kl_div_fun=self.kl_divergence_function,
-                                     entropy_fun=self.entropy_function,
-                                     k=self.k,
-                                     name="actor_dense_3")(x)
+                x = DenseMoVE(units=n_hidden_units, expert_activation=tf.nn.leaky_relu,
+                              gating_activation=tf.nn.softmax,
+                              expert_beta=self.expert_beta, gating_beta=self.gating_beta,
+                              n_experts=self.n_experts,
+                              diversity_bonus=self.diversity_bonus,
+                              kl_div_fun=self.kl_divergence_function,
+                              entropy_fun=self.entropy_function,
+                              k=self.k,
+                              name="actor_dense_3")(x)
                 x = Concatenate(axis=-1)([x, input_layer])
             else:
-                x = BayesianDenseMoE(units=n_hidden_units, expert_activation=tf.nn.leaky_relu,
+                x = DenseMoVE(units=n_hidden_units, expert_activation=tf.nn.leaky_relu,
+                              gating_activation=tf.nn.softmax,
+                              expert_beta=self.expert_beta, gating_beta=self.gating_beta,
+                              n_experts=self.n_experts,
+                              diversity_bonus=self.diversity_bonus,
+                              kl_div_fun=self.kl_divergence_function,
+                              entropy_fun=self.entropy_function,
+                              k=self.k,
+                              name="actor_dense_0")(input_layer)
+                x = Concatenate(axis=-1)([x, input_layer])
+                x = DenseMoVE(units=n_hidden_units, expert_activation=tf.nn.leaky_relu,
+                              gating_activation=tf.nn.softmax,
+                              expert_beta=self.expert_beta, gating_beta=self.gating_beta,
+                              n_experts=self.n_experts,
+                              diversity_bonus=self.diversity_bonus,
+                              kl_div_fun=self.kl_divergence_function,
+                              entropy_fun=self.entropy_function,
+                              k=self.k,
+                              name="actor_dense_1")(x)
+                x = Concatenate(axis=-1)([x, input_layer])
+            actor_output = DenseMoVE(units=n_actions * 2, expert_activation=None,
                                      gating_activation=tf.nn.softmax,
                                      expert_beta=self.expert_beta, gating_beta=self.gating_beta,
-                                     n_experts=self.n_experts,
-                                     diversity_bonus=self.diversity_bonus,
-                                     kl_div_fun=self.kl_divergence_function,
-                                     entropy_fun=self.entropy_function,
+                                     n_experts=self.n_experts, diversity_bonus=self.diversity_bonus,
+                                     kl_div_fun=self.kl_divergence_function, entropy_fun=self.entropy_function,
                                      k=self.k,
-                                     name="actor_dense_0")(input_layer)
-                x = Concatenate(axis=-1)([x, input_layer])
-                x = BayesianDenseMoE(units=n_hidden_units, expert_activation=tf.nn.leaky_relu,
-                                     gating_activation=tf.nn.softmax,
-                                     expert_beta=self.expert_beta, gating_beta=self.gating_beta,
-                                     n_experts=self.n_experts,
-                                     diversity_bonus=self.diversity_bonus,
-                                     kl_div_fun=self.kl_divergence_function,
-                                     entropy_fun=self.entropy_function,
-                                     k=self.k,
-                                     name="actor_dense_1")(x)
-                x = Concatenate(axis=-1)([x, input_layer])
-            actor_output = BayesianDenseMoE(units=n_actions * 2, expert_activation=None,
-                                            gating_activation=tf.nn.softmax,
-                                            expert_beta=self.expert_beta, gating_beta=self.gating_beta,
-                                            n_experts=self.n_experts, diversity_bonus=self.diversity_bonus,
-                                            kl_div_fun=self.kl_divergence_function, entropy_fun=self.entropy_function,
-                                            k=self.k,
-                                            name="actor_output")(x)
+                                     name="actor_output")(x)
         else:
             x = Dense(units=n_hidden_units, activation=tf.nn.relu)(input_layer)
             x = Dense(units=n_hidden_units, activation=tf.nn.relu)(x)
@@ -248,71 +248,71 @@ class SoftQNetwork(Model):
         input_layer = Input(shape=inputdim)
         if self.vmoe:
             if self.deep:
-                x = BayesianDenseMoE(units=n_hidden_units, expert_activation=tf.nn.leaky_relu,
-                                     gating_activation=tf.nn.softmax,
-                                     name="softq_dense_in_%s" % (qi),
-                                     expert_beta=self.expert_beta, gating_beta=self.gating_beta,
-                                     n_experts=self.n_experts,
-                                     diversity_bonus=self.diversity_bonus,
-                                     kl_div_fun=self.kl_divergence_function,
-                                     k=self.k,
-                                     entropy_fun=self.entropy_function)(input_layer)
+                x = DenseMoVE(units=n_hidden_units, expert_activation=tf.nn.leaky_relu,
+                              gating_activation=tf.nn.softmax,
+                              name="softq_dense_in_%s" % (qi),
+                              expert_beta=self.expert_beta, gating_beta=self.gating_beta,
+                              n_experts=self.n_experts,
+                              diversity_bonus=self.diversity_bonus,
+                              kl_div_fun=self.kl_divergence_function,
+                              k=self.k,
+                              entropy_fun=self.entropy_function)(input_layer)
                 x = Concatenate(axis=-1)([x, input_layer])
-                x = BayesianDenseMoE(units=n_hidden_units, expert_activation=tf.nn.leaky_relu,
-                                     gating_activation=tf.nn.softmax, name="softq_dense_0_%s" % (qi),
-                                     expert_beta=self.expert_beta, gating_beta=self.gating_beta,
-                                     n_experts=self.n_experts,
-                                     diversity_bonus=self.diversity_bonus,
-                                     kl_div_fun=self.kl_divergence_function,
-                                     k=self.k,
-                                     entropy_fun=self.entropy_function)(x)
+                x = DenseMoVE(units=n_hidden_units, expert_activation=tf.nn.leaky_relu,
+                              gating_activation=tf.nn.softmax, name="softq_dense_0_%s" % (qi),
+                              expert_beta=self.expert_beta, gating_beta=self.gating_beta,
+                              n_experts=self.n_experts,
+                              diversity_bonus=self.diversity_bonus,
+                              kl_div_fun=self.kl_divergence_function,
+                              k=self.k,
+                              entropy_fun=self.entropy_function)(x)
                 x = Concatenate(axis=-1)([x, input_layer])
-                x = BayesianDenseMoE(units=n_hidden_units, expert_activation=tf.nn.leaky_relu,
-                                     gating_activation=tf.nn.softmax, name="softq_dense_1_%s" % (qi),
-                                     expert_beta=self.expert_beta, gating_beta=self.gating_beta,
-                                     n_experts=self.n_experts,
-                                     diversity_bonus=self.diversity_bonus,
-                                     kl_div_fun=self.kl_divergence_function,
-                                     k=self.k,
-                                     entropy_fun=self.entropy_function)(x)
+                x = DenseMoVE(units=n_hidden_units, expert_activation=tf.nn.leaky_relu,
+                              gating_activation=tf.nn.softmax, name="softq_dense_1_%s" % (qi),
+                              expert_beta=self.expert_beta, gating_beta=self.gating_beta,
+                              n_experts=self.n_experts,
+                              diversity_bonus=self.diversity_bonus,
+                              kl_div_fun=self.kl_divergence_function,
+                              k=self.k,
+                              entropy_fun=self.entropy_function)(x)
                 x = Concatenate(axis=-1)([x, input_layer])
-                x = BayesianDenseMoE(units=n_hidden_units, expert_activation=tf.nn.leaky_relu,
-                                     gating_activation=tf.nn.softmax, name="softq_dense_3_%s" % (qi),
-                                     expert_beta=self.expert_beta, gating_beta=self.gating_beta,
-                                     n_experts=self.n_experts,
-                                     diversity_bonus=self.diversity_bonus,
-                                     kl_div_fun=self.kl_divergence_function,
-                                     k=self.k,
-                                     entropy_fun=self.entropy_function)(x)
+                x = DenseMoVE(units=n_hidden_units, expert_activation=tf.nn.leaky_relu,
+                              gating_activation=tf.nn.softmax, name="softq_dense_3_%s" % (qi),
+                              expert_beta=self.expert_beta, gating_beta=self.gating_beta,
+                              n_experts=self.n_experts,
+                              diversity_bonus=self.diversity_bonus,
+                              kl_div_fun=self.kl_divergence_function,
+                              k=self.k,
+                              entropy_fun=self.entropy_function)(x)
                 x = Concatenate(axis=-1)([x, input_layer])
             else:
-                x = BayesianDenseMoE(units=n_hidden_units, expert_activation=tf.nn.leaky_relu,
-                                     gating_activation=tf.nn.softmax,
-                                     name="softq_dense_in_%s" % (qi),
-                                     expert_beta=self.expert_beta, gating_beta=self.gating_beta,
-                                     n_experts=self.n_experts,
-                                     diversity_bonus=self.diversity_bonus,
-                                     kl_div_fun=self.kl_divergence_function,
-                                     k=self.k,
-                                     entropy_fun=self.entropy_function)(input_layer)
+                x = DenseMoVE(units=n_hidden_units, expert_activation=tf.nn.leaky_relu,
+                              gating_activation=tf.nn.softmax,
+                              name="softq_dense_in_%s" % (qi),
+                              expert_beta=self.expert_beta, gating_beta=self.gating_beta,
+                              n_experts=self.n_experts,
+                              diversity_bonus=self.diversity_bonus,
+                              kl_div_fun=self.kl_divergence_function,
+                              k=self.k,
+                              entropy_fun=self.entropy_function)(input_layer)
                 x = Concatenate(axis=-1)([x, input_layer])
-                x = BayesianDenseMoE(units=n_hidden_units, expert_activation=tf.nn.leaky_relu,
-                                     gating_activation=tf.nn.softmax, name="softq_dense_0_%s" % (qi),
-                                     expert_beta=self.expert_beta, gating_beta=self.gating_beta,
-                                     n_experts=self.n_experts,
-                                     diversity_bonus=self.diversity_bonus,
-                                     kl_div_fun=self.kl_divergence_function,
-                                     k=self.k,
-                                     entropy_fun=self.entropy_function)(x)
+                x = DenseMoVE(units=n_hidden_units, expert_activation=tf.nn.leaky_relu,
+                              gating_activation=tf.nn.softmax, name="softq_dense_0_%s" % (qi),
+                              expert_beta=self.expert_beta, gating_beta=self.gating_beta,
+                              n_experts=self.n_experts,
+                              diversity_bonus=self.diversity_bonus,
+                              kl_div_fun=self.kl_divergence_function,
+                              k=self.k,
+                              entropy_fun=self.entropy_function)(x)
                 x = Concatenate(axis=-1)([x, input_layer])
-            out = BayesianDenseMoE(units=1, expert_activation=None,
-                                   gating_activation=tf.nn.softmax, name="softq_dense_out_%s" % (qi),
-                                   expert_beta=self.expert_beta, gating_beta=self.gating_beta,
-                                   n_experts=self.n_experts,
-                                   diversity_bonus=self.diversity_bonus,
-                                   kl_div_fun=self.kl_divergence_function,
-                                   k=self.k,
-                                   entropy_fun=self.entropy_function)(x)
+            out = DenseMoVE(units=1, expert_activation=None,
+                            gating_activation=tf.nn.softmax, name="softq_dense_out_%s" % (qi),
+                            expert_beta=self.expert_beta, gating_beta=self.gating_beta,
+                            n_experts=self.n_experts,
+                            diversity_bonus=self.diversity_bonus,
+                            kl_div_fun=self.kl_divergence_function,
+                            k=self.k,
+                            entropy_fun=self.entropy_function)(x)
         else:
             x = Dense(units=n_hidden_units, activation=tf.nn.relu)(input_layer)
             x = Dense(units=n_hidden_units, activation=tf.nn.relu)(x)

@@ -18,7 +18,7 @@ from tensorflow.python.keras import backend as K
 
 ds = tfp.distributions
 #
-class BayesianDenseMoE(Layer):
+class DenseMoVE(Layer):
     """Mixture-of-experts layer.
     Implements: y = sum_{k=1}^K g(v_k * x) f(W_k * x)
         # Arguments
@@ -80,7 +80,7 @@ class BayesianDenseMoE(Layer):
 
         if 'input_shape' not in kwargs and 'input_dim' in kwargs:
             kwargs['input_shape'] = (kwargs.pop('input_dim'),)
-        super(BayesianDenseMoE, self).__init__(**kwargs)
+        super(DenseMoVE, self).__init__(**kwargs)
 
         self.gating_beta = gating_beta
         self.diversity_bonus = diversity_bonus
@@ -447,7 +447,7 @@ class BayesianDenseMoE(Layer):
             'k': self.k,
             'n_monte_carlo': self.n_monte_carlo,
         }
-        base_config = super(BayesianDenseMoE, self).get_config()
+        base_config = super(DenseMoVE, self).get_config()
         return dict(list(base_config.items()) + list(config.items()))
 
     def _softplus_inverse(self, x):
