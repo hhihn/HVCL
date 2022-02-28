@@ -1,5 +1,5 @@
 # Hierarchically Structured Task-Agnostic Continual Learning
-Code basis for Hierarchically Structured Task-Agnostic Continual Learning, which you can find as pre-print on arxiv under [this](https://arxiv.org/pdf/2110.12667.pdf) link. You can also check out our [projet page](https://sites.google.com/view/hvcl/home).
+Code basis for Hierarchically Structured Task-Agnostic Continual Learning, which you can find as pre-print on arxiv under [this](https://arxiv.org/pdf/2110.12667.pdf) link. You can also check out our [project page](https://sites.google.com/view/hvcl/home).
 
 ## Minimum Requirements: 
 
