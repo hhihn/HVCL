@@ -8,7 +8,7 @@ from tensorflow.keras.layers import Dense, InputLayer, BatchNormalization, Input
 from tensorflow.keras.regularizers import l2
 import tensorflow_probability as tfp
 from collections import deque
-from DenseMoe import *
+from DenseMoVE import *
 
 
 class ReplayBuffer(object):
