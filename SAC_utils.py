@@ -76,7 +76,7 @@ class ActorNetwork(Model):
         self.n_experts = n_experts
         self.expert_beta = expert_beta
         self.gating_beta = gating_beta
-        self.gating_entropy_beta = 1e-1
+        self.diversity_bonus = 1e-1
         self.kl_divergence_function = (lambda q, p: ds.kl_divergence(q, p) / tf.cast(1.0, dtype=tf.float32))
         self.entropy_function = (lambda p: tf.maximum(p.entropy(), 0.0) / tf.cast(12560, dtype=tf.float32))
         self.logprob_epsilon = logprob_epsilon
@@ -88,7 +88,7 @@ class ActorNetwork(Model):
                                      gating_activation=tf.nn.softmax,
                                      expert_beta=self.expert_beta, gating_beta=self.gating_beta,
                                      n_experts=self.n_experts,
-                                     gating_entropy_beta=self.gating_entropy_beta,
+                                     diversity_bonus=self.diversity_bonus,
                                      kl_div_fun=self.kl_divergence_function,
                                      entropy_fun=self.entropy_function,
                                      k=self.k,
@@ -98,7 +98,7 @@ class ActorNetwork(Model):
                                      gating_activation=tf.nn.softmax,
                                      expert_beta=self.expert_beta, gating_beta=self.gating_beta,
                                      n_experts=self.n_experts,
-                                     gating_entropy_beta=self.gating_entropy_beta,
+                                     diversity_bonus=self.diversity_bonus,
                                      kl_div_fun=self.kl_divergence_function,
                                      entropy_fun=self.entropy_function,
                                      k=self.k,
@@ -108,7 +108,7 @@ class ActorNetwork(Model):
                                      gating_activation=tf.nn.softmax,
                                      expert_beta=self.expert_beta, gating_beta=self.gating_beta,
                                      n_experts=self.n_experts,
-                                     gating_entropy_beta=self.gating_entropy_beta,
+                                     diversity_bonus=self.diversity_bonus,
                                      kl_div_fun=self.kl_divergence_function,
                                      entropy_fun=self.entropy_function,
                                      k=self.k,
@@ -118,7 +118,7 @@ class ActorNetwork(Model):
                                      gating_activation=tf.nn.softmax,
                                      expert_beta=self.expert_beta, gating_beta=self.gating_beta,
                                      n_experts=self.n_experts,
-                                     gating_entropy_beta=self.gating_entropy_beta,
+                                     diversity_bonus=self.diversity_bonus,
                                      kl_div_fun=self.kl_divergence_function,
                                      entropy_fun=self.entropy_function,
                                      k=self.k,
@@ -129,7 +129,7 @@ class ActorNetwork(Model):
                                      gating_activation=tf.nn.softmax,
                                      expert_beta=self.expert_beta, gating_beta=self.gating_beta,
                                      n_experts=self.n_experts,
-                                     gating_entropy_beta=self.gating_entropy_beta,
+                                     diversity_bonus=self.diversity_bonus,
                                      kl_div_fun=self.kl_divergence_function,
                                      entropy_fun=self.entropy_function,
                                      k=self.k,
@@ -139,7 +139,7 @@ class ActorNetwork(Model):
                                      gating_activation=tf.nn.softmax,
                                      expert_beta=self.expert_beta, gating_beta=self.gating_beta,
                                      n_experts=self.n_experts,
-                                     gating_entropy_beta=self.gating_entropy_beta,
+                                     diversity_bonus=self.diversity_bonus,
                                      kl_div_fun=self.kl_divergence_function,
                                      entropy_fun=self.entropy_function,
                                      k=self.k,
@@ -148,7 +148,7 @@ class ActorNetwork(Model):
             actor_output = BayesianDenseMoE(units=n_actions * 2, expert_activation=None,
                                             gating_activation=tf.nn.softmax,
                                             expert_beta=self.expert_beta, gating_beta=self.gating_beta,
-                                            n_experts=self.n_experts, gating_entropy_beta=self.gating_entropy_beta,
+                                            n_experts=self.n_experts, diversity_bonus=self.diversity_bonus,
                                             kl_div_fun=self.kl_divergence_function, entropy_fun=self.entropy_function,
                                             k=self.k,
                                             name="actor_output")(x)
@@ -242,7 +242,7 @@ class SoftQNetwork(Model):
         self.n_experts = n_experts
         self.expert_beta = expert_beta
         self.gating_beta = gating_beta
-        self.gating_entropy_beta = 1e-1
+        self.diversity_bonus = 1e-1
         self.kl_divergence_function = (lambda q, p: ds.kl_divergence(q, p) / tf.cast(1.0, dtype=tf.float32))
         self.entropy_function = (lambda p: tf.maximum(p.entropy(), 0.0) / tf.cast(10000.0, dtype=tf.float32))
         input_layer = Input(shape=inputdim)
@@ -253,7 +253,7 @@ class SoftQNetwork(Model):
                                      name="softq_dense_in_%s" % (qi),
                                      expert_beta=self.expert_beta, gating_beta=self.gating_beta,
                                      n_experts=self.n_experts,
-                                     gating_entropy_beta=self.gating_entropy_beta,
+                                     diversity_bonus=self.diversity_bonus,
                                      kl_div_fun=self.kl_divergence_function,
                                      k=self.k,
                                      entropy_fun=self.entropy_function)(input_layer)
@@ -262,7 +262,7 @@ class SoftQNetwork(Model):
                                      gating_activation=tf.nn.softmax, name="softq_dense_0_%s" % (qi),
                                      expert_beta=self.expert_beta, gating_beta=self.gating_beta,
                                      n_experts=self.n_experts,
-                                     gating_entropy_beta=self.gating_entropy_beta,
+                                     diversity_bonus=self.diversity_bonus,
                                      kl_div_fun=self.kl_divergence_function,
                                      k=self.k,
                                      entropy_fun=self.entropy_function)(x)
@@ -271,7 +271,7 @@ class SoftQNetwork(Model):
                                      gating_activation=tf.nn.softmax, name="softq_dense_1_%s" % (qi),
                                      expert_beta=self.expert_beta, gating_beta=self.gating_beta,
                                      n_experts=self.n_experts,
-                                     gating_entropy_beta=self.gating_entropy_beta,
+                                     diversity_bonus=self.diversity_bonus,
                                      kl_div_fun=self.kl_divergence_function,
                                      k=self.k,
                                      entropy_fun=self.entropy_function)(x)
@@ -280,7 +280,7 @@ class SoftQNetwork(Model):
                                      gating_activation=tf.nn.softmax, name="softq_dense_3_%s" % (qi),
                                      expert_beta=self.expert_beta, gating_beta=self.gating_beta,
                                      n_experts=self.n_experts,
-                                     gating_entropy_beta=self.gating_entropy_beta,
+                                     diversity_bonus=self.diversity_bonus,
                                      kl_div_fun=self.kl_divergence_function,
                                      k=self.k,
                                      entropy_fun=self.entropy_function)(x)
@@ -291,7 +291,7 @@ class SoftQNetwork(Model):
                                      name="softq_dense_in_%s" % (qi),
                                      expert_beta=self.expert_beta, gating_beta=self.gating_beta,
                                      n_experts=self.n_experts,
-                                     gating_entropy_beta=self.gating_entropy_beta,
+                                     diversity_bonus=self.diversity_bonus,
                                      kl_div_fun=self.kl_divergence_function,
                                      k=self.k,
                                      entropy_fun=self.entropy_function)(input_layer)
@@ -300,7 +300,7 @@ class SoftQNetwork(Model):
                                      gating_activation=tf.nn.softmax, name="softq_dense_0_%s" % (qi),
                                      expert_beta=self.expert_beta, gating_beta=self.gating_beta,
                                      n_experts=self.n_experts,
-                                     gating_entropy_beta=self.gating_entropy_beta,
+                                     diversity_bonus=self.diversity_bonus,
                                      kl_div_fun=self.kl_divergence_function,
                                      k=self.k,
                                      entropy_fun=self.entropy_function)(x)
@@ -309,7 +309,7 @@ class SoftQNetwork(Model):
                                    gating_activation=tf.nn.softmax, name="softq_dense_out_%s" % (qi),
                                    expert_beta=self.expert_beta, gating_beta=self.gating_beta,
                                    n_experts=self.n_experts,
-                                   gating_entropy_beta=self.gating_entropy_beta,
+                                   diversity_bonus=self.diversity_bonus,
                                    kl_div_fun=self.kl_divergence_function,
                                    k=self.k,
                                    entropy_fun=self.entropy_function)(x)
