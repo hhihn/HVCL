@@ -21,8 +21,7 @@ Code basis for Hierarchically Structured Task-Agnostic Continual Learning, which
 - `HVCL_rl_*.py` contain the HVCL implementation of [SAC](https://arxiv.org/pdf/1812.05905.pdf)
 
 ## Implementation for Dense MoVE Layers
-Dense layers can be found in the file `DenseMoVE.py` under the python class `DenseMoVE`, which inherts from `keras.layers`. Thus, it can be used as part of a model or in a feedforward chain.
-See the following example on how to instantiate a dense MoVE layer:
+Dense layers can be found in the file `DenseMoVE.py` under the python class `DenseMoVE`, which inherits from `keras.layers`. Thus, it can be used as part of a model or in a feedforward chain. See the following example on how to instantiate a dense MoVE layer:
 ```
 import tensorflow_probability as tfp
 ds = tfp.distributions
@@ -41,8 +40,7 @@ layer_out = DenseMoE(units=64,
 ```
 
 ## Implementation for Conv MoVE Layers
-Conv layers can be found in the file `ConvMoVE.py` under the python class `ConvMoE`, which inherts from `keras.layers`. Thus, it can be used as part of a model or in a feedforward chain. We provide 1D, 2D, and 3D convolutional layers.
-See the following example on how to instantiate a 2D conv MoVE layer:
+Conv layers can be found in the file `ConvMoVE.py` under the python class `ConvMoE`, which inherts from `keras.layers`. Thus, it can be used as part of a model or in a feedforward chain. We provide 1D, 2D, and 3D convolutional layers. See the following example on how to instantiate a 2D conv MoVE layer:
 ```
 layer_out = Conv2DMoVE(n_filters=64,
                         kernel_size=(3, 3),
