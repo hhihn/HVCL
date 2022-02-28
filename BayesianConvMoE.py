@@ -51,7 +51,7 @@ class _ConvMoE(Layer):
                  gating_prior_momentum=0.9995,
                  gating_beta=0.001,
                  expert_beta=0.001,
-                 gating_entropy_beta=1.0,
+                 diversity_bonus=1.0,
                  k=1,
                  n_monte_carlo=10,
                  kernel_width=10,
@@ -74,7 +74,7 @@ class _ConvMoE(Layer):
         self.gating_beta = gating_beta
         self.expert_beta = expert_beta
         self.entropy_fun = entropy_fun
-        self.gating_entropy_beta = gating_entropy_beta
+        self.diversity_bonus = diversity_bonus
         self.n_total_filters = self.n_filters * self.n_experts
         self.kernel_size = conv_utils.normalize_tuple(kernel_size, rank, 'kernel_size')
         self.strides = conv_utils.normalize_tuple(strides, rank, 'strides')
@@ -285,8 +285,8 @@ class _ConvMoE(Layer):
             batch_gating_prior = tfp.distributions.Categorical(
                 probs=tf.reduce_mean(activated_gating_outputs, axis=0, keepdims=True))
             batch_activated_gating_entropy = tf.reduce_mean(self.entropy_fun(batch_gating_prior))
-            self.add_loss(self.gating_entropy_beta * batch_activated_gating_entropy)
-            self.add_loss(self.gating_entropy_beta * gating_cond_entropy)
+            self.add_loss(self.diversity_bonus * batch_activated_gating_entropy)
+            self.add_loss(self.diversity_bonus * gating_cond_entropy)
 
             gates = self.top_k_gating(noisy_gating_outputs)
 
@@ -298,7 +298,7 @@ class _ConvMoE(Layer):
             kl_loss = tf.reduce_mean(self.kl_div_fun(gating_posterior_dist, gating_prior_dist), axis=0)
             self.add_loss(self.gating_kl_weight * kl_loss)
             # balance_loss = self.load_balanced_loss(router_probs=activated_gating_outputs, expert_mask=gates)
-            # self.add_loss(self.gating_entropy_beta * balance_loss)
+            # self.add_loss(self.diversity_bonus * balance_loss)
             # expert diversity bonus
             dkl_mat = [[tf.ones(shape=()) for _ in range(self.n_experts)] for _ in range(self.n_experts)]
             kernel_width = self.kernel_width
@@ -314,7 +314,7 @@ class _ConvMoE(Layer):
             # exp_diversity = 1.0 - tf.math.square(dkl_mat[0][1])  # tf.linalg.det(dkl_mat)
             exp_diversity = tf.linalg.det(dkl_mat)
             div_bonus = -exp_diversity
-            self.add_loss(self.gating_entropy_beta * div_bonus)
+            self.add_loss(self.diversity_bonus * div_bonus)
         else:
             activated_gating_outputs = None
             gates = tf.ones(shape=(tf.shape(inputs)[0], 1))
