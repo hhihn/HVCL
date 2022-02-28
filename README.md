@@ -9,6 +9,7 @@ Code basis for Hierarchically Structured Task-Agnostic Continual Learning, which
 - gym 0.15.7
 - scipy 1.4.1
 - pybullet 3.0.8
+- cloudpickle 1.2.2
 - pybullet-gym from https://github.com/benelot/pybullet-gym
 
 ## Implementation for Dense MoVE Layers
