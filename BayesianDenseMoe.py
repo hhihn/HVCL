@@ -70,7 +70,7 @@ class BayesianDenseMoE(Layer):
                  gating_beta=0.01,
                  expert_beta=0.01,
                  kernel_width=10.0,
-                 gating_entropy_beta=1.0,
+                 diversity_bonus=1.0,
                  k=1,
                  n_monte_carlo=100,
                  attn=True,
@@ -83,7 +83,7 @@ class BayesianDenseMoE(Layer):
         super(BayesianDenseMoE, self).__init__(**kwargs)
 
         self.gating_beta = gating_beta
-        self.gating_entropy_beta = gating_entropy_beta
+        self.diversity_bonus = diversity_bonus
         self.expert_beta = expert_beta
         self.units = units
         self.gating_units = int(units * 1.5)
@@ -249,8 +249,8 @@ class BayesianDenseMoE(Layer):
             # gating entropy penalty
             batch_gating_prior = ds.Categorical(probs=tf.reduce_mean(activated_gating_outputs, axis=0, keepdims=True))
             batch_activated_gating_entropy = tf.reduce_mean(self.entropy_fun(batch_gating_prior))
-            self.add_loss(self.gating_entropy_beta * batch_activated_gating_entropy)
-            self.add_loss(self.gating_entropy_beta * gating_cond_entropy)
+            self.add_loss(self.diversity_bonus * batch_activated_gating_entropy)
+            self.add_loss(self.diversity_bonus * gating_cond_entropy)
 
             # gating KL div penalty
             gating_posterior_dist = tfp.distributions.Categorical(probs=activated_gating_outputs)
@@ -260,7 +260,7 @@ class BayesianDenseMoE(Layer):
             #
             gates = self.top_k_gating(gating_logits)
             # balance_loss = self.load_balanced_loss(router_probs=activated_gating_outputs, expert_mask=gates)
-            # self.add_loss(self.gating_entropy_beta * balance_loss)
+            # self.add_loss(self.diversity_bonus * balance_loss)
             # expert diversity bonus
             dkl_mat = [[tf.ones(shape=()) for _ in range(self.n_experts)] for _ in range(self.n_experts)]
             kernel_width = self.kernel_width
@@ -275,7 +275,7 @@ class BayesianDenseMoE(Layer):
 
             exp_diversity = tf.linalg.det(dkl_mat)
             div_bonus = -exp_diversity
-            self.add_loss(self.gating_entropy_beta * div_bonus)
+            self.add_loss(self.diversity_bonus * div_bonus)
         else:
             gates = tf.ones(shape=(tf.shape(inputs)[0], 1))
         dispatcher = SparseDispatcher(self.n_experts, gates)
@@ -443,7 +443,7 @@ class BayesianDenseMoE(Layer):
             'activity_regularizer': regularizers.serialize(self.activity_regularizer),
             'gating_beta': self.gating_beta,
             'expert_beta': self.expert_beta,
-            'gating_entropy_beta': self.gating_entropy_beta,
+            'diversity_bonus': self.diversity_bonus,
             'k': self.k,
             'n_monte_carlo': self.n_monte_carlo,
         }
