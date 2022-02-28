@@ -63,6 +63,9 @@ to see a full list of all avalaible hyper-parameters.
 ## Baseline EWC and UCL CRL Experiments
 We provide the implementation we used for EWC and UCL for CRL in the accordingly named folder.
 
+## Acknowledgements
+The SAC implementation is based on [this](https://github.com/RickyMexx/SAC-tf2) repo and the UCL implementation for CRL can be found in [this](https://github.com/csm9493/UCL) repo.
+
 ## Citation
 If you use any parts of this repo, please use the following citation:
 
