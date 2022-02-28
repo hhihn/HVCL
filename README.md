@@ -60,3 +60,17 @@ python3 SAC_main.py --help
 ```
 to see a full list of all avalaible hyper-parameters.
 
+## Baseline EWC and UCL CRL Experiments
+We provide the implementation we used for EWC and UCL for CRL in the accordingly named folder.
+
+## Citation
+If you use any parts of this repo, please use the following citation:
+
+```
+@InProceedings{hihn2022mixture,
+  author    = {Hihn, Heinke and Braun, Daniel A},
+  title     = {Mixture-of-Variational-Experts for Continual Learning},
+  booktitle = arxiv},
+  year      = {2022},
+}
+```
