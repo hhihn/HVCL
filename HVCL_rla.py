@@ -1,9 +1,7 @@
 import tensorflow_addons as tfa
 from typing import Sequence
 from numbers import Number
-from SAC_utils import *
-from SAC_gen_conf import *
-
+from HVCL_rl_utils import *
 
 class SAC:
     def __init__(self, largest_obs_dim, largest_act_dim, discount, polyak_coef, lr,

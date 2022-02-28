@@ -13,10 +13,10 @@ import tensorflow as tf
 import gym
 import numpy as np
 import pybulletgym.envs
-from SAC_agent import Agent
-from SAC_utils import ReplayBuffer
+from HVCL_rl_agent import Agent
+from HVCL_rl_utils import ReplayBuffer
 from ExperienceBuffer import ExperienceBuffer
-from SAC_rla import SAC
+from HVCL_rla import SAC
 from parallel_gym import make_mp_envs
 import argparse
 
