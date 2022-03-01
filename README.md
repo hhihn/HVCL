@@ -53,7 +53,7 @@ layer_out = Conv2DMoVE(n_filters=64,
                         expert_beta=1.0, name="conv0",
                         diversity_bonus=0.01,
                         entropy_fun=entropy_function,
-                        kl_div_fun=kl_divergence_function)(class_input)
+                        kl_div_fun=kl_divergence_function)(layer_in)
 ```
 ## Implementation for the Continual RL Experiments
 CRL experiments can be run using the following command:
