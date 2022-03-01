@@ -13,6 +13,7 @@ Code basis for Hierarchically Structured Task-Agnostic Continual Learning, which
 - pybullet-gym from https://github.com/benelot/pybullet-gym
 
 ## Repo Structure
+- Folder `UCL_EWC_RL` contains all files to run CRL experiments using [EWC](https://www.pnas.org/doi/10.1073/pnas.1611835114) and [UCL](https://papers.nips.cc/paper/2019/file/2c3ddf4bf13852db711dd1901fb517fa-Paper.pdf) algorithms
 - `DenseMoVE.py` and `ConvMoVE.py` implement Mixture-of-Variational-Experts layer (see paper and below for an example)
 - `ExperienceBuffer.py` and `sum_tree.py` contain the implementation of [prioritized replay buffer](https://arxiv.org/pdf/1511.05952.pdf)
 - `SparseDispatcher.py` contains the implementation of the [sparse top-k sampling](https://arxiv.org/pdf/1701.06538.pdf) technique
@@ -67,10 +68,10 @@ python3 SAC_main.py --help
 to see a full list of all avalaible hyper-parameters.
 
 ## Baseline EWC and UCL CRL Experiments
-We provide the implementation we used for EWC and UCL for CRL in the accordingly named folder.
+We provide the implementation we used for [EWC](https://www.pnas.org/doi/10.1073/pnas.1611835114) and [UCL](https://papers.nips.cc/paper/2019/file/2c3ddf4bf13852db711dd1901fb517fa-Paper.pdf) for CRL in the accordingly named folder.
 
 ## Acknowledgements
-The SAC implementation is based on [this](https://github.com/RickyMexx/SAC-tf2) repo and the UCL implementation for CRL can be found in [this](https://github.com/csm9493/UCL) repo. `SparseDispatcher.py` is based on [this](https://github.com/tensorflow/tensor2tensor) repo.
+The SAC implementation is based on [this](https://github.com/RickyMexx/SAC-tf2) repo and the [UCL](https://papers.nips.cc/paper/2019/file/2c3ddf4bf13852db711dd1901fb517fa-Paper.pdf) implementation for CRL can be found in [this](https://github.com/csm9493/UCL) repo. `SparseDispatcher.py` is based on [this](https://github.com/tensorflow/tensor2tensor) repo.
 
 ## Citation
 If you use any parts of this repo, please use the following citation:
