@@ -68,7 +68,22 @@ python3 SAC_main.py --help
 to see a full list of all avalaible hyper-parameters.
 
 ## Baseline EWC and UCL CRL Experiments
-We provide the implementation we used for [EWC](https://www.pnas.org/doi/10.1073/pnas.1611835114) and [UCL](https://papers.nips.cc/paper/2019/file/2c3ddf4bf13852db711dd1901fb517fa-Paper.pdf) for CRL in the accordingly named folder.
+We provide the implementation we used for [EWC](https://www.pnas.org/doi/10.1073/pnas.1611835114) and [UCL](https://papers.nips.cc/paper/2019/file/2c3ddf4bf13852db711dd1901fb517fa-Paper.pdf) for CRL in the accordingly named folder. [UCL](https://papers.nips.cc/paper/2019/file/2c3ddf4bf13852db711dd1901fb517fa-Paper.pdf) experiments can be run using the following command inside the `UCL_EWC_RL` folder:
+```
+python3 main_rl.py --approach ucl --ucl-beta 0.001 --ucl-rho -2.2522 --num-env-steps 1000000 
+```
+
+[EWC](https://www.pnas.org/doi/10.1073/pnas.1611835114) experiments by
+```
+python3 main_rl.py --approach ewc --ewcl-lambda 5000 --num-env-steps 1000000 
+```
+
+Note, that this experiments are implemented in pytorch and have the following minimum requirements:
+- Python 3.6
+- Pytorch 1.2.0+cu9.2 / CUDA 9.2
+- pybullet-gym from https://github.com/benelot/pybullet-gym
+- pybullet 3.0.8
+- OpenAI Gym, Baselines
 
 ## Acknowledgements
 The SAC implementation is based on [this](https://github.com/RickyMexx/SAC-tf2) repo and the [UCL](https://papers.nips.cc/paper/2019/file/2c3ddf4bf13852db711dd1901fb517fa-Paper.pdf) implementation for CRL can be found in [this](https://github.com/csm9493/UCL) repo. `SparseDispatcher.py` is based on [this](https://github.com/tensorflow/tensor2tensor) repo.
