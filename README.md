@@ -10,6 +10,7 @@ Code basis for Hierarchically Structured Task-Agnostic Continual Learning, which
 - scipy 1.4.1
 - pybullet 3.0.8
 - cloudpickle 1.2.2
+- stable-baselines from https://github.com/Stable-Baselines-Team/stable-baselines-tf2
 - pybullet-gym from https://github.com/benelot/pybullet-gym
 
 ## Repo Structure
